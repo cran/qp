@@ -1,0 +1,2 @@
+useDynLib(qp)
+export(qp.search,qp.edge.prob,qp.ci.test,qp.analyse,qp.clique,qp.hist,qp.graph,qp.matrix.image,qp.get.cliques)
