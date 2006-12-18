@@ -16,9 +16,9 @@ qp.graph(qp.output, threshold)
   \item{qp.output}{output of \code{\link{qp.search}}}
   \item{threshold}{threshold on the non-rejection rate}
 }
-\references{Castelo, R. and Roverato, A. (2006). A robust procedure for Gaussian
-graphical model search from microarray data with p larger than n, \emph{J. Mach.
-Learn. Res., accepted}}
+\references{Castelo, R. and Roverato, A. (2006). A robust procedure for
+Gaussian graphical model search from microarray data with p larger than n,
+\emph{J. Mach. Learn. Res.}, 7:2621-2650}
 
 \author{Robert Castelo and Alberto Roverato}
 \seealso{\code{\link{qp.search}}}

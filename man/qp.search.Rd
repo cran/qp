@@ -29,9 +29,9 @@ is set, then the R code will be executed.
 }
 \references{Castelo, R. and Roverato, A. (2006). A robust procedure for
 Gaussian graphical model search from microarray data with p larger than n,
-\emph{J. Mach. Learn. Res., accepted}}
+\emph{J. Mach. Learn. Res.}, 7:2621-2650}
 \author{Robert Castelo and Alberto Roverato}
-\seealso{\code{\link{qp.edge.prob}},\code{\link{qp.analyse}},\code{\link{qp.hist}}}
+\seealso{\code{\link{qp.edge.prob}}, \code{\link{qp.analyse}}, \code{\link{qp.hist}}}
 \examples{
 data(jmlr06data)
 S <- S.bd5.N20

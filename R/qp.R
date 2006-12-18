@@ -149,13 +149,19 @@ qp.ci.test <- function(S, N, i=1, j=2, Q=c(), binary=TRUE) {
 #             plot.image - flag that when set it plots the incidence matrix
 #                          resulting of applying the threshold on the
 #                          non-rejection rates
+#             exact.calculation - flag that when set to TRUE the exact maximum clique
+#                                 size is calculated and when set to FALSE a lower
+#                                 bound is calculated instead
+#             approximation.iterations - number of iterations performed to calculate
+#                                        the lower bound on the clique number of
+#                                        each graph (exact.calculation is FALSE)
 # return: a matrix with the nr. of selected edges, the nr. of edges of the
 #         complete graph and the percentage of selected edges. When
 #         largest.clique=TRUE it gives also the size of the largest clique
 #         and when plot.image=TRUE it plots the incidence matrix
 
-qp.analyse <- function(qp.output, threshold, largest.clique=TRUE,
-                       plot.image=TRUE) {
+qp.analyse <- function(qp.output, threshold, largest.clique=TRUE, plot.image=TRUE,
+                       exact.calculation=FALSE, approximation.iterations=100) {
   M <- qp.output$A
   grayscale <- gray(1:99 / 99)
 
@@ -198,12 +204,15 @@ qp.analyse <- function(qp.output, threshold, largest.clique=TRUE,
   }
 
   if (largest.clique == TRUE) {
+    label <- "exact maximum clique size"
+    if (exact.calculation == FALSE) {
+      label <- "lower bound on the maximum clique size"
+    }
     I <- xor(M <= threshold,diag(1,nrow(M))==1) 
     dimnames(I) <- list(1:length(I[,1]),1:length(I[1,]))
-    cliq <- qp.get.cliques(I,binary=TRUE)
-    maxsize <- sort(as.numeric(as.matrix(lapply(cliq,length))),decreasing=TRUE)[1]
+    maxsize <- qp.clique.number(I,exact.calculation,approximation.iterations)
     outp <- rbind(outp,maxsize)
-    rownames(outp) <- c(rownames(outp)[1:(length(outp[,1])-1)],"maximum clique size")
+    rownames(outp) <- c(rownames(outp)[1:(length(outp[,1])-1)],label)
   }
 
   return(outp)
@@ -219,15 +228,25 @@ qp.analyse <- function(qp.output, threshold, largest.clique=TRUE,
 #             breaks - either a number of threshold bins or a vector of threshold
 #                      breakpoints
 #             plot.image - flag that when set it makes a plot of the result
+#             exact.calculation - flag that when set to TRUE the exact maximum clique
+#                                 size is calculated and when set to FALSE a lower
+#                                 bound is calculated instead
+#             approximation.iterations - number of iterations performed to calculate
+#                                        the lower bound on the clique number of
+#                                        each graph (exact.calculation is FALSE)
 # return: a list with two members, the threshold on the non-rejection rate that provides
 #         the maximum clique size that is strictly smaller than the sample size N, and
 #         the resulting maximum clique size
 
-qp.clique <- function(qp.output, N, threshold.lim=c(0,1), breaks=5, plot.image=TRUE) {
+qp.clique <- function(qp.output, N, threshold.lim=c(0,1), breaks=5, plot.image=TRUE,
+                      exact.calculation=FALSE,approximation.iterations=100) {
   if (length(breaks) == 1) {
     len <- threshold.lim[2] - threshold.lim[1]
     br <- seq(threshold.lim[1],threshold.lim[2],by=len/breaks)
-  } else br <- breaks
+  } else {
+    br <- breaks
+    threshold.lim = range(br)
+  }
 
   M <- qp.output$A
   M=M+t(M) # make M symmetric
@@ -249,8 +268,7 @@ qp.clique <- function(qp.output, N, threshold.lim=c(0,1), breaks=5, plot.image=T
     n.par <- (sum(M <= threshold) - n.var)/2
     I <- xor(M <= threshold,diag(1,n.var)==1) 
     dimnames(I) <- list(1:length(I[,1]),1:length(I[1,]))
-    cliq <- qp.get.cliques(I,binary=TRUE)
-    maxsize <- sort(as.numeric(as.matrix(lapply(cliq,length))),decreasing=TRUE)[1]
+    maxsize <- qp.clique.number(I,exact.calculation,approximation.iterations)
     mpctedclqsze[i,] <- c(round(n.par*100/n.par.sat,digits=0),maxsize)
     if (maxsize > maxclqszeunderN && maxsize < N) {
       maxclqszeunderN <- maxsize
@@ -258,16 +276,83 @@ qp.clique <- function(qp.output, N, threshold.lim=c(0,1), breaks=5, plot.image=T
     }
   }
 
+  linetype <- 1
+  label <- "exact maximum clique size"
+  if (exact.calculation == FALSE) {
+    linetype <- 2
+    label <- "lower bound on the maximum clique size"
+  }
+
   if (plot.image == TRUE) {
     plot(br,mpctedclqsze[,2],type="o",xlim=threshold.lim,
-         ylim=range(0,N,mpctedclqsze[,2]),lwd=2,
+         ylim=range(0,N,mpctedclqsze[,2]),lwd=2,lty=linetype,
          xlab="threshold",ylab="maximum clique size",
          main="maximum clique size as function of threshold")
     abline(h=N,col="red",lwd=2)
     text(br,mpctedclqsze[,2],lab=paste(mpctedclqsze[,1],"%",sep=""),pos=1,cex=.7)
+    legend(min(threshold.lim),max(N,mpctedclqsze[,2]),label,lty=linetype,lwd=2,pch=1)
   }
 
   return(list(threshold=thrmaxclqszeunderN,size=maxclqszeunderN))
+}
+
+
+
+# function: qp.clique.number
+# purpose: calculate the size of the largest maximal clique in the given graph
+# parameters: I - incidence matrix of the graph
+#             exact.calculation - flag that when set to TRUE the exact maximum clique
+#                                 size is calculated and when set to FALSE a lower
+#                                 bound is calculated instead
+#             approximation.iterations - number of iterations performed to calculate
+#                                        the lower bound on the clique number of
+#                                        each graph (exact.calculation is FALSE)
+# return: the size of the largest maximal clique in the given graph, also known as
+#         its clique number
+
+qp.clique.number <- function(I,exact.calculation=FALSE,approximation.iterations=100) {
+  n.var <- nrow(I)
+
+  if (exact.calculation == TRUE) {
+
+    I <- I == 1 # make sure we get a boolean matrix
+    clqlst <- qp.get.cliques(I,binary=TRUE)
+    clique.number <- sort(as.numeric(as.matrix(lapply(clqlst,length))),decreasing=TRUE)[1]
+
+  } else {
+
+    clique.number <- 0
+    I <- I + 0 # make sure we get a 0-1 matrix
+    deg <- sort(rowsum(I,rep(1,n.var)),index.return=TRUE,decreasing=TRUE) # order by degree
+
+    for (i in 1:approximation.iterations) {
+
+      pdeg <- deg$ix
+      if (i %% n.var + 1 > 1) {
+        sset <- sample(1:n.var,i %% n.var + 1,replace=FALSE) # we alter the order of the ranking
+        ssetelem <- pdeg[sset]                               # by degree with increasing levels
+        ssetelem <- sample(ssetelem)                         # of randomness cyclically
+        pdeg[sset] <- ssetelem
+      }
+      clq <- c(pdeg[1])
+      j <- 2
+      for (j in 2:n.var) {
+        v <- pdeg[j]
+        clq2 <- c(clq,v)
+        if (sum(I[clq2,clq2]) == length(clq2)*length(clq2)-length(clq2)) {
+          clq <- clq2
+        }
+      }
+                                                                                            
+      if (length(clq) > clique.number) {
+        clique.number <- length(clq)
+      }
+
+    }
+
+  }
+
+  return(clique.number)
 }
 
 

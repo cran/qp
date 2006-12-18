@@ -1,9 +1,9 @@
 Package: qp
 Type: Package
 Title: q-order partial correlation graph search algorithm
-Version: 0.1-1
-Date: 2006-09-29
-Author: Robert Castelo <robert.castelo@upf.edu>, Alberto Roverato <roverato@unimore.it>
+Version: 0.2-1
+Date: 2006-12-18
+Author: Robert Castelo <robert.castelo@upf.edu>, Alberto Roverato <alberto.roverato@unibo.it>
 Maintainer: Robert Castelo <robert.castelo@upf.edu>
 Depends: R (>= 2.2.1)
 Description: the q-order partial correlation graph search algorithm, q-partial,
@@ -14,4 +14,4 @@ Description: the q-order partial correlation graph search algorithm, q-partial,
              multidimensional data points n as in the case of, e.g., microarray
              data.
 License: GPL version 2 or newer
-Packaged: Fri Sep 29 17:06:09 2006; rcastelo
+Packaged: Mon Dec 18 18:58:11 2006; rcastelo

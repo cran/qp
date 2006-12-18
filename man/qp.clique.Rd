@@ -9,7 +9,9 @@ the maximum clique size as a function of the minimum threshold on the
 non-rejection rate for removing an edge
 }
 \usage{
-qp.clique(qp.output, N, threshold.lim=c(0,1), breaks=5, plot.image=TRUE)
+qp.clique(qp.output, N, threshold.lim=c(0,1), breaks=5,
+          plot.image=TRUE, exact.calculation=FALSE,
+          approximation.iterations=100)
 
 }
 \arguments{
@@ -27,6 +29,14 @@ qp.clique(qp.output, N, threshold.lim=c(0,1), breaks=5, plot.image=TRUE)
   }
   \item{plot.image}{when this flag is set to \code{TRUE}, the
                     \code{qp.clique} plot is produced}
+  \item{exact.calculation}{when this flag is set to \code{TRUE}, the exact
+                           maximum clique size is calculated and when set
+                           to \code{FALSE} a lower bound is calculated
+                            instead}
+  \item{approximation.iterations}{number of iterations performed to calculate
+                                  the lower bound on the clique number of
+                                  each graph. It applies only when
+                                  \code{exact.calculation=FALSE}}
 }
 \details{
 The \code{qp.clique} plot provides information on the graphs
@@ -39,9 +49,24 @@ graph (vertical axis); the percentage of present edges in the graph
 circles are joined by a line and the dotted horizontal line corresponds
 to the sample size N.
 
-Beware that setting breakpoints between 0.95 and 1.0 may result in a very
-long time of computation due to the NP-hardness of the problem of
-calculating the size of the largest clique.
+Beware that setting \code{exact.calculation=TRUE} and giving breakpoints
+between 0.95 and 1.0, may result into very dense graphs which can lead
+to a very long time of computation due to the NP-completeness of the
+problem of calculating the size of the largest clique which is therefore
+bounded by an exponential growth of the running time as function of the
+graph density (cf.~Pardalos and Xue, 1994).
+
+The lower bound on the maximum clique size is calculated by ranking the
+vertices by their connectivity degree, put the first vertex in a set and
+go through the rest of the ranking adding those vertices to the set that
+form a clique with the vertices currently within the set. Once the entire
+ranking has been examined a large clique should have been built and hopefully
+the largest one. This process is repeated a number of times
+(\code{approximation.iterations}) each of which the ranking is altered with
+increasing levels of randomness acyclically (altering 1 to $p$ vertices and
+again). Larger values of \code{approximation.iterations} should provide
+tighter lower bounds and eventually the exact maximum clique size (the clique
+number).
 }
 \value{
   \item{threshold}{threshold on the non-rejection rate that provides the
@@ -50,9 +75,14 @@ calculating the size of the largest clique.
   \item{size}{maximum clique size strictly smaller than the sample size
               \code{N}}
 }
-\references{Castelo, R. and Roverato, A. (2006). A robust procedure for Gaussian
-graphical model search from microarray data with p larger than n, \emph{J. Mach.
-Learn. Res., accepted}}
+\references{
+Castelo, R. and Roverato, A. (2006). A robust procedure for
+Gaussian graphical model search from microarray data with p larger than n,
+\emph{J. Mach.  Learn. Res.}, 7:2621-2650
+
+Pardalos, P.M. and Xue, J. (1994). The maximum clique problem, \emph{J.
+Global Optim.}, 4:301-328
+}
 
 \author{Robert Castelo and Alberto Roverato}
 \seealso{\code{\link{qp.search}}}

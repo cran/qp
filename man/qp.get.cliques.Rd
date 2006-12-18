@@ -19,19 +19,20 @@ qp.get.cliques(I, binary=TRUE)
 It uses the algorithm described in Bron and Kerbosch (1973) and returns
 a list where each member is a vector of vertices forming a clique in the
 given graph. Beware that the problem of finding the set of cliques is
-NP-hard and the time of computation of this algorithm grows exponentially
-in the graph density.
+NP-complete and the time of computation of this algorithm grows
+exponentially in the graph density (number of actual edges over the total
+number of adjacencies).
 }
-\references{Castelo, R. and Roverato, A. (2006). A robust procedure for Gaussian
-graphical model search from microarray data with p larger than n, \emph{J. Mach.
-Learn. Res., accepted}
+\references{Castelo, R. and Roverato, A. (2006). A robust procedure for
+Gaussian graphical model search from microarray data with p larger than n,
+\emph{J. Mach. Learn. Res.}, 7:2621-2650
 
 Bron, C. and Kerbosch, J (1973). Finding all cliques of an undirected graph,
 \emph{Commun. ACM}, 16:575--577
 }
 
 \author{Robert Castelo and Alberto Roverato}
-\seealso{\code{\link{qp.graph}},\code{\link{qp.clique}}}
+\seealso{\code{\link{qp.graph}}, \code{\link{qp.clique}}}
 \examples{
 data(jmlr06data)
 I <- qp.graph(qp.out.bd5.N20.q10,threshold=0.9)

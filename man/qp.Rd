@@ -56,7 +56,7 @@ Lauritzen, S. L. (2002). gRaphical Models in R.
 \emph{R News}, 3(2)39.
 
 Castelo, R. and Roverato, A. (2006). A robust procedure for Gaussian graphical model
-search from microarray data with p larger than n, \emph{J. Mach. Learn. Res., accepted}.
+search from microarray data with p larger than n, \emph{J. Mach. Learn. Res.}, 7:2621-2650
 }
 \keyword{multivariate}
 \keyword{models}

@@ -19,9 +19,9 @@ qp.hist(qp.output, IC=NULL, prob=FALSE)
   \item{prob}{when this flag is set to TRUE the histograms show densities,
               otherwise they show absolute frequencies.}
 }
-\references{Castelo, R. and Roverato, A. (2006). A robust procedure for Gaussian
-graphical model search from microarray data with p larger than n, \emph{J. Mach.
-Learn. Res., accepted}.}
+\references{Castelo, R. and Roverato, A. (2006). A robust procedure for
+Gaussian graphical model search from microarray data with p larger than n,
+\emph{J. Mach. Learn. Res.}, 7:2621-2650}
 
 \author{Robert Castelo and Alberto Roverato}
 \seealso{\code{\link{qp.search}}}

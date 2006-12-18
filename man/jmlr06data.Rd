@@ -48,5 +48,5 @@ in $G_2$ the boundary of every vertext is at most 20}
 }
 \references{Castelo, R. and Roverato, A. (2006). A robust procedure for
 Gaussian graphical model search from microarray data with p larger than n,
-\emph{J. Mach. Learn. Res., accepted}}
+\emph{J. Mach. Learn. Res.}, 7:2621-2650}
 \keyword{datasets}

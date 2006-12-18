@@ -36,7 +36,7 @@ qp.ci.test(S,N,i=3,j=4,Q=c(5,6,7))
 }
 \references{Castelo, R. and Roverato, A. (2006). A robust procedure for
 Gaussian graphical model search from microarray data with p larger than
-n, \emph{J. Mach. Learn. Res, accepted}}
+n, \emph{J. Mach. Learn. Res.}, 7:2621-2650}
 \author{Robert Castelo and Alberto Roverato}
 \seealso{\code{\link{qp.edge.prob}}}
 \keyword{models}
