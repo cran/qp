@@ -40,9 +40,9 @@ in $G_2$ the boundary of every vertext is at most 20}
     S.bd20.N150:\tab sample covariance matrix from a sample of size 150
                    drawn from a normal\cr\tab distribution with mean 0
                    and inverse correlation matrix IC.bd20\cr
-    qp.out.bd5.N20.q10:\tab output from \code{\link{qp.search}} applied
+    qp.out.bd5.N20.q10:\tab output from \code{qp.search} applied
                             to S.bd5.N20 with q=10 and T=500\cr
-    qp.out.bd20.N20.q10:\tab output from \code{\link{qp.search}} applied
+    qp.out.bd20.N20.q10:\tab output from \code{qp.search} applied
                             to S.bd20.N20 with q=10 and T=500\cr
   }
 }

@@ -4,15 +4,11 @@
 The package 'qp': summary information
 }
 \description{
-This package provides functions for implementing the q-order partial-correlation
-graph search algorithm, q-partial, or qp, algorithm for short.
-The qp algorithm is a robust procedure for structure learning of undirected
-Gaussian graphical Markov models (UGGMMs) from "small n, large p" data, that
-is, multivariate normal data coming from a number of random variables p larger
-than the number of multidimensional data points n as in the case of, e.g.,
-microarray data.
+This package has been replaced by 'qpgraph' available at the
+Bioconductor project website (http://www.bioconductor.org)
 }
 \section{Data}{
+This synthetic data forms still part of this package.
 \itemize{
   \item \code{\link{jmlr06data}} synthetic data used in the referenced article
 }
@@ -20,25 +16,25 @@ microarray data.
 
 \section{Functions}{
 \itemize{
-  \item \code{\link{qp.search}} calculates the estimates of the non-rejection
-        rates for every pair of variables
-  \item \code{\link{qp.edge.prob}} calculates the estimate of the non-rejection
+  \item \code{qp.search} calculates the estimates of the non-rejection
+        rates for every pair of variables. Now \code{qpNrr} in \code{qpgraph}.
+  \item \code{qp.edge.prob} calculates the estimate of the non-rejection
         rate for a particular pair of variables, this function is also called
-        by \code{\link{qp.search}}
-  \item \code{\link{qp.ci.test}} performs a test for conditional independence
-  \item \code{\link{qp.analyse}} provides some exploratory analyses on the
-        output of \code{\link{qp.search}}
-  \item \code{\link{qp.clique}} calculates the maximum clique size as a function
-        of the minimum threshold on the non-rejection rate for removing an edge
-  \item \code{\link{qp.hist}} shows a histogram of the estimated non-rejection
-        rates obtained through \code{\link{qp.search}}
-  \item \code{\link{qp.graph}} returns the qp-graph, in the form of an incidence
+        by \code{qp.search}. Now \code{qpEdgeNrr} in \code{qpgraph}.
+  \item \code{qp.ci.test} performs a test for conditional independence. Now \code{qpCItest} in \code{qpgraph}.
+  \item \code{qp.analyse} provides some exploratory analyses on the
+        output of \code{qp.search}. This function does not exist anymore.
+  \item \code{qp.clique} calculates the maximum clique size as a function
+        of the minimum threshold on the non-rejection rate for removing an edge. Now \code{qpClique} in \code{qpgraph}.
+  \item \code{qp.hist} shows a histogram of the estimated non-rejection
+        rates obtained through \code{qp.search}. Now \code{qpHist} in \code{qpgraph}.
+  \item \code{qp.graph} returns the qp-graph, in the form of an incidence
         matrix, resulting of thresholding the non-rejection rates in the output
-        of \code{\link{qp.search}}
-  \item \code{\link{qp.matrix.image}} makes an image plot of the absolute value
-        of an inverse correlation matrix
-  \item \code{\link{qp.get.cliques}} finds the set of cliques of an undirected
-        graph
+        of \code{qp.search}. Now \code{qpGraph} in \code{qpgraph}.
+  \item \code{qp.matrix.image} makes an image plot of the absolute value
+        of an inverse correlation matrix. This function does not exist anymore.
+  \item \code{qp.get.cliques} finds the set of cliques of an undirected
+        graph. Now \code{qpGetCliques} in \code{qpgraph}.
 }
 The package provides an implementation of the procedures described by
 Castelo and Roverato (2006) and is a contribution to the gR-project
